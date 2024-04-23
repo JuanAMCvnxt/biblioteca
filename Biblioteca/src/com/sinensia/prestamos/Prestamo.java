@@ -1,6 +1,6 @@
 package com.sinensia.prestamos;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class Prestamo {
 
@@ -10,11 +10,11 @@ public class Prestamo {
 	private int id_prestamo;
 	private int id_usuario;
 	private int id_documento;
-	private Date fecha_prestamo;
-	private Date fecha_devolucion;
+	private LocalDate fecha_prestamo;
+	private LocalDate fecha_devolucion;
 	private boolean devuelto;
 
-	public Prestamo(int id_prestamo, int id_usuario, int id_documento, Date fecha_prestamo, Date fecha_devolucion,
+	public Prestamo(int id_prestamo, int id_usuario, int id_documento, LocalDate fecha_prestamo, LocalDate fecha_devolucion,
 			boolean devuelto) {
 		super();
 		this.id_prestamo = id_prestamo;
@@ -22,7 +22,7 @@ public class Prestamo {
 		this.id_documento = id_documento;
 		this.fecha_prestamo = fecha_prestamo;
 		this.fecha_devolucion = fecha_devolucion;
-		this.devuelto = false;
+		this.devuelto = devuelto;
 	}
 
 	public int getId_prestamo() {
@@ -37,11 +37,11 @@ public class Prestamo {
 		return id_documento;
 	}
 
-	public Date getFecha_prestamo() {
+	public LocalDate getFecha_prestamo() {
 		return fecha_prestamo;
 	}
 
-	public Date getFecha_devolucion() {
+	public LocalDate getFecha_devolucion() {
 		return fecha_devolucion;
 	}
 

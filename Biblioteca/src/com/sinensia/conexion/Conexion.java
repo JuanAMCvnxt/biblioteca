@@ -4,33 +4,52 @@ import java.sql.*;
 
 public class Conexion {
 
-	private String nombreBd = "biblioteca";
-	private String usuario = "root";
-	private String password = "Abc_123.";
-	private String url = "jdbc:mysql://localhost:3306/" + nombreBd + "?useUnicode=true&use"
+	private static String nombreBd = "biblioteca";
+	private static String usuario = "root";
+	private static String password = "Abc_123.";
+	private static String url = "jdbc:mysql://localhost:3306/" + nombreBd + "?useUnicode=true&use"
 			+ "JDBCCompliantTimezoneShift = true&useLegacyDatetimeCode=false&" + "serverTimezone=UTC";
 
-	Connection conn = null;
+    private static Connection conex;
 
-	public Conexion() {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(url, usuario, password);
+    public static Connection crearConexion() throws ClassNotFoundException {
+        // Comprueba si la conexión existe, y si no crea la conexión
+        if (conex == null) {
+            try {
+                // Se carga el driver de Mysql
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                // Se establece la conexión utilizando la URL de la base datos, el usuario y
+                // contraseña
+                conex = DriverManager.getConnection(url, usuario, password);
+                // Imprime que la conexión a la base de datos Mysql fue creada.
+                System.out.println("Conexion a la base de datos creada.");
 
-			if (conn != null) {
-				System.out.println("Conexión realizada correctamente.");
-				System.out.println("Conexion a la base de datos: " + nombreBd + "." + "\nUsuario: " + usuario + ".");
-			}
-		} catch (ClassNotFoundException e) {
-			System.out.println("Error, clase no encontrada: " + e.getMessage());
-		} catch (SQLException e) {
-			System.out.println("Error sql: " + e.getMessage());
-		}
+            } catch (SQLException e) {
+                // Captura la posible excepción si se produjera un error al conectar con la base
+                // de datos
+                System.out.println("Error al conectar con la base de datos. \n" + e.getMessage().toString());
+            }
+        }
+        // Devuelve la conexión
+        return conex;
+    }
 
-	}
-	
-	public Connection getConnection() {
-		return conn;
-	}
-	
+    // Método que cierra la conexión a la base de datos Mysql
+    public static void cerrarConexion(Connection conex) {
+        try {
+            // Compruibea si la conexion no es nula
+            if (conex != null) {
+                // Cierra la conexión
+                conex.close();
+                // imprime que la base de datos ha sido cerrada.
+                System.out.println("Conexion a la base de datos cerrada.");
+            } else {
+                // Si la conexión en nula imprime que la conexión ya estaba cerrada
+                System.out.println("La conexión ya estaba cerrada.");
+            }
+        } catch (Exception e) {
+            // Captura la excepción en caso de que hubiera un error al cerrar la conexión
+            System.out.println("Error al cerrar la base de datos: \n" + e.getMessage().toString());
+        }
+    }
 }
